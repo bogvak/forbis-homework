@@ -16,3 +16,9 @@ body {
 .page-container {
     margin: 1rem;
 }
+
+.bitcoin-table {
+    &-header {
+        cursor: pointer;
+    }
+}
