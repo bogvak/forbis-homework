@@ -16,6 +16,11 @@ const fieldDescription = {
     "rate": "Rate"
 }
 
+const arrows = {
+    "asc": <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-down-b-512.png" alt=""/>,
+    "desc": <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-up-b-512.png" alt=""/>,
+}
+
 const Bitcoin: React.FC = () => {
 
     const [rates, setRates] = useState<CurrencyObj[]>([]);
@@ -67,7 +72,7 @@ const Bitcoin: React.FC = () => {
 
     return (
         <>
-            <table className="w-full text-md bg-white shadow-md rounded mb-4">
+            <table className="w-full text-md bg-white shadow-md rounded mb-4 bitcoin-table">
                 <thead>
                     <tr className="border-b">
                         {['code', 'rate'].map(header =>
@@ -78,6 +83,9 @@ const Bitcoin: React.FC = () => {
                                 onClick={sortHandler}
                                 >
                                     {fieldDescription[header]}
+                                    <div className="sort-arrow">
+                                        {sortMode.field === header ? arrows[sortMode.direction]: ""}
+                                    </div> 
                                 </a>
                             </th>)}
                     </tr>

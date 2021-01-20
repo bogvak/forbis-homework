@@ -18,12 +18,24 @@ body {
 }
 
 .bitcoin-table {
+    width: 50%;
     &-header {
         cursor: pointer;
     }
 }
 
+.analyses-table {
+    width: 100%;
+}
+
 .cont-scrollable {
     max-height: 30rem;
+    width: 50%;
     overflow-y: scroll;
+}
+
+.sort-arrow {
+    width: 10px;
+    margin: 0 6px;
+    display: inline-block;
 }

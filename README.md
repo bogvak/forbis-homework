@@ -18,4 +18,5 @@ Build application for hosting in external server
 ## To-Do
  - [ ] Check if cors-anywhere.herokuapp.com available;
  - [ ] Type as many functions as possible;
- - [ ] Memorizind results;
+ - [ ] Memorizing results;
+ - [ ] To implement handling of situation, where there multiple tags with the same frequency (currently used the first one);
