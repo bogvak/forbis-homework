@@ -22,3 +22,8 @@ body {
         cursor: pointer;
     }
 }
+
+.cont-scrollable {
+    max-height: 30rem;
+    overflow-y: scroll;
+}
