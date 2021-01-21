@@ -4,6 +4,7 @@ import { getCurrencyFromApi } from "src/service/bitcoin.api";
 import { CurrencyObj } from "src/interfaces/Bitcoin.interface";
 import { SortMode } from "src/interfaces/SortMode.interface";
 import { sortRates } from "src/utils/sortRates";
+import { useSelector, useDispatch } from 'react-redux'
 
 const statusMessages = {
     "-1": "not available",
@@ -27,7 +28,13 @@ const Bitcoin: React.FC = () => {
     const [lastUp, setLastUp] = useState<string>("");
     const [lastFetch, setLastFetch] = useState<Date | undefined>(undefined);
     const [fetchStatus, setFetchStatus] = useState<number>(0);
-    const [sortMode, setSortMode] = useState<SortMode>({ field: "code", direction: "asc" });
+    // const [sortMode, setSortMode] = useState<SortMode>({ field: "code", direction: "asc" });
+
+    const sortMode = useSelector(state => state.root.sortMode);
+    const dispatch = useDispatch()
+    const setSortMode = (sm:SortMode): void => {
+        dispatch({type: 'STORE_SORTMODE', payload: sm});
+    }
 
     async function fetchData() {
         try {
