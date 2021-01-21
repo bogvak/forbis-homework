@@ -1,30 +1,36 @@
 import React, { ReactPropTypes, useEffect, useState, useRef } from "react";
 import { fetchURLAsString } from "src/service/analyses.api";
 import { parseXML, getDocStatistics, getTableData, getMostPopularTag, getLongestPath } from "src/utils/domParser";
-import { TagsTableData } from "src/interfaces/Analyses.types";
-
-enum LoadingState {
-    Idle,
-    Loading,
-    Loaded,
-    Error,
-    Empty
-};
+import { TagsTableData, LoadingState } from "src/interfaces/Analyses.types";
+import { useSelector, useDispatch } from 'react-redux'
 
 const Analyses: React.FC = () => {
     const [data, setData] = useState<Record<string, unknown> | undefined>(undefined);
     const [ldState, setLdState] = useState<LoadingState>(LoadingState.Idle);
-    const urlForm = useRef();
+    const urlForm = useRef();  
+
+    const analysesData = useSelector(state => state.root.analysesData);
+    const dispatch = useDispatch()
+    const setAnalysesData = (aData:Record<string, unknown>): void => {
+        dispatch({type: 'STORE_ANALYSES', payload: aData});
+    }
 
     async function fetchData(url: string) {
         try {
             const data = await fetchURLAsString(url);
             const doc = parseXML(data);
             const stats = getDocStatistics(doc);
-            setData(stats);
+            setAnalysesData({
+                data: stats,
+                ldState: LoadingState.Loaded,
+                url: url
+            });
         } catch (error) {
-            console.log("Wrong fetch")
-            setLdState(LoadingState.Error);
+            setAnalysesData({
+                data: undefined,
+                ldState: LoadingState.Error,
+                url: url
+            });
             throw new Error(error);
         }
     }
@@ -34,7 +40,7 @@ const Analyses: React.FC = () => {
     }, [data])
 
     const getResultContainer = () => {
-        switch (ldState) {
+        switch (analysesData.ldState) {
             case LoadingState.Idle:
                 return "Please enter your request";
             case LoadingState.Loading:
@@ -44,17 +50,25 @@ const Analyses: React.FC = () => {
             case LoadingState.Empty:
                 return "The URL field is empty, please enter some URL";
             default:
-                return <AnalysesResult stats={data} />
+                return <AnalysesResult stats={analysesData.data} />
         }
     }
 
     const loadUrl = (event: React.FormEvent) => {
         event.preventDefault();
         if (!urlForm.current.value) {
-            setLdState(LoadingState.Empty);
+            setAnalysesData({
+                data: undefined,
+                ldState: LoadingState.Empty,
+                url: ""
+            });
             return;
         }
-        setLdState(LoadingState.Loading);
+        setAnalysesData({
+            data: undefined,
+            ldState: LoadingState.Loading,
+            url: ""
+        });
         fetchData(urlForm.current.value);
     }
 
@@ -62,7 +76,7 @@ const Analyses: React.FC = () => {
         <>
             <div>
                 <form className="w-6/12 flex" onSubmit={loadUrl}>
-                    <input ref={urlForm} className="flex-grow p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white" placeholder="URL to XML or HTML" />
+                    <input ref={urlForm} className="flex-grow p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white" placeholder="URL to XML or HTML" defaultValue={analysesData.url} />
                     <button className="p-2 px-8 bg-yellow-400 text-gray-800 font-bold uppercase border-yellow-500 border-t border-b border-r">Analyse</button>
                 </form>
             </div>

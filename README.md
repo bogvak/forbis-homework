@@ -1,11 +1,18 @@
 # Forbis homework
----
-There a two basic modules: Bitcoin and Analyses
+There a two basic modules implemented in : Bitcoin and Analyses
 ### Bitcoin
 ### Analyses
 
 ## Important notes
 Depends on external service for downloading of HTML/XML pages protected by CORS policy.
+
+## Installation and download
+Clone application repository to local folder  
+`git clone https://github.com/bogvak/forbis-homework.git`
+
+Install necessary npm libraries
+`cd forbis-homework`
+`npm install`
 
 ## Basic comment for running and building of app
 
@@ -19,7 +26,7 @@ Running of application tests
 `npm run test -- --coverage`
 
 ## To-Do
- - [ ] Check if cors-anywhere.herokuapp.com available;
+ - [ ] Implement checking of *cors-anywhere.herokuapp.com* status;
  - [ ] Increase amount of typed functions (currently not all part of codebase are properly typed);
  - [ ] Memorizing results for faster parser execution;
  - [ ] To implement handling of situation, where there multiple tags with the same frequency (currently used the first one);
