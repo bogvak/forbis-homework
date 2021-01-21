@@ -2,7 +2,10 @@ import { TagsTableData } from "src/interfaces/Analyses.types";
 
 const tagsToIgnore = ["#text", "#comment"];
 
-export const parseToJson = (xml: string): any => {
+/**
+ * Extracting provided XML or HTML to Document object.
+ */
+export const parseXML = (xml: string): Document => {
     const parser = new DOMParser();
     const docError = parser.parseFromString('INVALID', 'text/xml');
     const parsererrorNS = docError.getElementsByTagName("parsererror")[0].namespaceURI;
@@ -14,7 +17,6 @@ export const parseToJson = (xml: string): any => {
 };
 
 export const getDocStatistics = (doc: Document): Record<string, unknown> => {
-    console.log("Statistics");
     const root = doc.documentElement;
     let path = [root.nodeName]
     let resDict = {};
@@ -47,7 +49,6 @@ export const getMostPopularTag = (tagsData: Array<TagsTableData>): TagsTableData
 export const getLongestPath = (tagToSearch: string, pathesDict: Record<string, unknown>): string[] => {
     let longestPath = [];
     let currNumberOfTags = 0;
-    console.log(Object.keys(pathesDict));
     Object.keys(pathesDict).map((tagName: string) => {
         pathesDict[tagName]["pathes"].map((next_path: string[]) => {
             let numbOfTagsInPath = countIncludes(tagToSearch, next_path);

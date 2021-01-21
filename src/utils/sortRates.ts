@@ -11,11 +11,11 @@ const compareString = (a: string, b: string): number => {
     var capsB = b.toUpperCase();
     switch (true) {
         case capsA < capsB:
-            return -1
+            return -1;
         case capsA > capsB:
-            return 1
+            return 1;
         default:
-            return
+            return 0;
     }
 }
 

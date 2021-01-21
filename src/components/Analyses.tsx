@@ -1,6 +1,6 @@
 import React, { ReactPropTypes, useEffect, useState, useRef } from "react";
 import { fetchURLAsString } from "src/service/analyses.api";
-import { parseToJson, getDocStatistics, getTableData, getMostPopularTag, getLongestPath } from "src/utils/domParser";
+import { parseXML, getDocStatistics, getTableData, getMostPopularTag, getLongestPath } from "src/utils/domParser";
 import { TagsTableData } from "src/interfaces/Analyses.types";
 
 enum LoadingState {
@@ -19,7 +19,7 @@ const Analyses: React.FC = () => {
     async function fetchData(url: string) {
         try {
             const data = await fetchURLAsString(url);
-            const doc = parseToJson(data);
+            const doc = parseXML(data);
             const stats = getDocStatistics(doc);
             setData(stats);
         } catch (error) {
