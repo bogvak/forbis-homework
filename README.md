@@ -9,7 +9,7 @@ Simple UI to logic that makes statistics on XML or HTML page (*determining autom
 - finding most popular tag;
 - finding path that contains highest amount of most popular tag;
 ## Important notes
-Depends on external service for downloading of HTML/XML pages protected by CORS policy.
+Depends on external service (*cors-anywhere.herokuapp.com*) for downloading of HTML/XML pages protected by CORS policy.
 
 ## Installation and download
 Clone application repository to local folder  
