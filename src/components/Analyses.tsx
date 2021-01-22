@@ -6,8 +6,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import AnalysesResult from "./AnalysesResult";
 
 const Analyses: React.FC = () => {
-    const [data, setData] = useState<Record<string, unknown> | undefined>(undefined);
-    const [ldState, setLdState] = useState<LoadingState>(LoadingState.Idle);
     const urlForm = useRef();  
 
     const analysesData = useSelector(state => state.root.analysesData);
@@ -35,10 +33,6 @@ const Analyses: React.FC = () => {
             throw new Error(error);
         }
     }
-
-    useEffect(() => {
-        if (data != undefined) setLdState(LoadingState.Loaded);
-    }, [data])
 
     const getResultContainer = () => {
         switch (analysesData.ldState) {
