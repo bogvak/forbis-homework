@@ -1,8 +1,13 @@
 # Forbis homework
 There a two basic modules implemented in : Bitcoin and Analyses
 ### Bitcoin
+Simple ui to https://api.coindesk.com/v1/bpi/currentprice.json API displaying current rates for Bitcoin exchange rates.
+May be sorted by codes or rates - by clicking on table header.
 ### Analyses
-
+Simple UI to logic that makes statistics on XML or HTML page (*determining automatically*):
+- what tags or nodes are used in file;
+- finding most popular tag;
+- finding path that contains highest amount of most popular tag;
 ## Important notes
 Depends on external service for downloading of HTML/XML pages protected by CORS policy.
 
@@ -10,11 +15,11 @@ Depends on external service for downloading of HTML/XML pages protected by CORS 
 Clone application repository to local folder  
 `git clone https://github.com/bogvak/forbis-homework.git`
 
-Install necessary npm libraries
-`cd forbis-homework`
+Install necessary npm libraries  
+`cd forbis-homework`  
 `npm install`
 
-## Basic comment for running and building of app
+## Running, building and testing of app
 
 Run application immediately in development mode (*hosted by webpack dev server*)  
 `npm run start:dev`
