@@ -28,6 +28,9 @@ Build application for hosting with external web server
 `npm build`
 
 Running of application tests  
+`npm run test`
+
+Checking of application test coverage  
 `npm run test -- --coverage`
 
 ## To-Do

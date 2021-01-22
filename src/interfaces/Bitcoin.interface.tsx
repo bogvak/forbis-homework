@@ -25,7 +25,7 @@ export interface CurrencyObj {
     rate_float: number;
 }
 
-export interface DisplaySata {
+export interface DisplayData {
     rates: CurrencyObj[],
     lastUp: string,
     lastFetch: Date | undefined,

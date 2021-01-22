@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useInterval from '@use-it/interval';
 import { getCurrencyFromApi } from "src/service/bitcoin.api";
-import { CurrencyObj, DisplaySata } from "src/interfaces/Bitcoin.interface";
+import { CurrencyObj, DisplayData } from "src/interfaces/Bitcoin.interface";
 import { SortMode } from "src/interfaces/SortMode.interface";
 import { sortRates } from "src/utils/sortRates";
 import { useSelector, useDispatch } from 'react-redux'
@@ -24,7 +24,7 @@ const arrows = {
 
 const Bitcoin: React.FC = () => {
 
-    const [displayData, setdisplayData] = useState<DisplaySata>({
+    const [displayData, setDisplayData] = useState<DisplayData>({
         rates: [],
         lastUp: "",
         lastFetch: undefined,
@@ -32,7 +32,7 @@ const Bitcoin: React.FC = () => {
     });
 
     const setPartialDisplayData = (rec: Record<string, unknown>): void => {
-        setdisplayData({...displayData, ...rec});
+        setDisplayData({...displayData, ...rec});
     }
 
     const sortMode = useSelector(state => state.root.sortMode);
