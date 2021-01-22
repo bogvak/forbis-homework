@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import useInterval from '@use-it/interval';
 import { getCurrencyFromApi } from "src/service/bitcoin.api";
-import { CurrencyObj } from "src/interfaces/Bitcoin.interface";
+import { CurrencyObj, DisplaySata } from "src/interfaces/Bitcoin.interface";
 import { SortMode } from "src/interfaces/SortMode.interface";
 import { sortRates } from "src/utils/sortRates";
 import { useSelector, useDispatch } from 'react-redux'
 
 const statusMessages = {
-    "-1": "not available",
-    "0": "not fetched yet",
-    "1": "succesful"
+    "-1": ["not available", "bt-mes-error"],
+    "0": ["not fetched yet", "bt-mes-normal"],
+    "1": ["succesful", "bt-mes-success"]
 }
 
 const fieldDescription = {
@@ -18,22 +18,27 @@ const fieldDescription = {
 }
 
 const arrows = {
-    "asc": <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-down-b-512.png" alt=""/>,
-    "desc": <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-up-b-512.png" alt=""/>,
+    "asc": <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-down-b-512.png" alt="" />,
+    "desc": <img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-up-b-512.png" alt="" />,
 }
 
 const Bitcoin: React.FC = () => {
 
-    const [rates, setRates] = useState<CurrencyObj[]>([]);
-    const [lastUp, setLastUp] = useState<string>("");
-    const [lastFetch, setLastFetch] = useState<Date | undefined>(undefined);
-    const [fetchStatus, setFetchStatus] = useState<number>(0);
-    // const [sortMode, setSortMode] = useState<SortMode>({ field: "code", direction: "asc" });
+    const [displayData, setdisplayData] = useState<DisplaySata>({
+        rates: [],
+        lastUp: "",
+        lastFetch: undefined,
+        fetchStatus: 0
+    });
+
+    const setPartialDisplayData = (rec: Record<string, unknown>): void => {
+        setdisplayData({...displayData, ...rec});
+    }
 
     const sortMode = useSelector(state => state.root.sortMode);
     const dispatch = useDispatch()
-    const setSortMode = (sm:SortMode): void => {
-        dispatch({type: 'STORE_SORTMODE', payload: sm});
+    const setSortMode = (sm: SortMode): void => {
+        dispatch({ type: 'STORE_SORTMODE', payload: sm });
     }
 
     async function fetchData() {
@@ -42,11 +47,16 @@ const Bitcoin: React.FC = () => {
             const ratesList: CurrencyObj[] = Object.keys(data.bpi).map(curr => {
                 return data.bpi[curr];
             });
-            setRates(sortRates(ratesList, sortMode));
-            setLastUp(data.time.updateduk);
-            setFetchStatus(1);
+            setPartialDisplayData({
+                rates: sortRates(ratesList, sortMode),
+                lastUp: data.time.updateduk,
+                lastFetch: new Date(),
+                fetchStatus: 1
+            })
         } catch (error) {
-            setFetchStatus(-1);
+            setPartialDisplayData({
+                fetchStatus: -1
+            })
         }
     }
 
@@ -55,14 +65,12 @@ const Bitcoin: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        console.log("Sort mode");
-        console.log(sortMode);
-        console.log(sortRates(rates, sortMode));
-        setRates(sortRates(rates, sortMode));
+        setPartialDisplayData({
+            rates: sortRates(displayData.rates, sortMode)
+        })
     }, [sortMode]);
 
     useInterval(() => {
-        console.log("Updating...");
         fetchData();
     }, 15000);
 
@@ -74,7 +82,7 @@ const Bitcoin: React.FC = () => {
         event.preventDefault;
         const sortField = event.target.attributes["bt-field"].value;
         const sortDirection = sortMode.field === sortField ? switchSortDirection() : "asc";
-        setSortMode({field: sortField, direction: sortDirection});
+        setSortMode({ field: sortField, direction: sortDirection });
     }
 
     return (
@@ -84,21 +92,21 @@ const Bitcoin: React.FC = () => {
                     <tr className="border-b">
                         {['code', 'rate'].map(header =>
                             <th className="text-left p-3 px-5">
-                                <a 
-                                className="bitcoin-table-header"
-                                bt-field={header}
-                                onClick={sortHandler}
+                                <a
+                                    className="bitcoin-table-header"
+                                    bt-field={header}
+                                    onClick={sortHandler}
                                 >
                                     {fieldDescription[header]}
                                     <div className="sort-arrow">
-                                        {sortMode.field === header ? arrows[sortMode.direction]: ""}
-                                    </div> 
+                                        {sortMode.field === header ? arrows[sortMode.direction] : ""}
+                                    </div>
                                 </a>
                             </th>)}
                     </tr>
                 </thead>
                 <tbody>
-                    {rates.map(curr => {
+                    {displayData.rates.map(curr => {
                         return (
                             <tr className="border-b hover:bg-orange-100 bg-gray-100">
                                 <td className="p-3 px-5">
@@ -112,8 +120,8 @@ const Bitcoin: React.FC = () => {
                     })}
                 </tbody>
             </table>
-            <div>Last rate update at: {lastUp}</div>
-            <div>Last fetch at: {lastFetch}, status: {statusMessages[fetchStatus]}</div>
+            <div>Last rate update at: {displayData.lastUp}</div>
+            <div>Last fetch at: {String(displayData.lastFetch)}, status: <span className={`bt-mes ${statusMessages[displayData.fetchStatus][1]}`}>{statusMessages[displayData.fetchStatus][0]}</span></div>
         </>
     );
 };

@@ -24,3 +24,10 @@ export interface CurrencyObj {
     description: string;
     rate_float: number;
 }
+
+export interface DisplaySata {
+    rates: CurrencyObj[],
+    lastUp: string,
+    lastFetch: Date | undefined,
+    fetchStatus: number
+}

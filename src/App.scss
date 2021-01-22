@@ -39,3 +39,24 @@ body {
     margin: 0 6px;
     display: inline-block;
 }
+
+.bt-mes {
+    font-size: 0.8rem;
+    background-color: #ddd;
+    padding: 0.2rem;
+    &-error {
+        color: red;
+    }
+    &-normal {}
+    &-success {
+        color: green;
+    }
+}
+
+.analyses-res-container {
+    width: 50%;
+    margin: 1rem 0;
+    div {
+        margin: 0.5rem;
+    }
+}

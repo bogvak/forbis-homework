@@ -22,6 +22,9 @@ const App: React.FC = () => (
                     <Route path="/analysis">
                         <Analyses />
                     </Route>
+                    <Route path="/">
+                        <div>Test task for Forbis frontend dev position applying</div>
+                    </Route>
                 </Switch>
             </div>
         </div>
