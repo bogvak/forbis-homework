@@ -14,7 +14,7 @@ const AnalysesResult: React.FC = ({ stats }) => {
                 <div>The most popular tag: {mostPopularTag != undefined ? mostPopularTag[0] : ""},
                      it's used {mostPopularTag != undefined ? mostPopularTag[1] : ""} times;
                 </div>
-                <div>The longest path is: <br />{longestPath.join("->")}.</div>
+                <div>The longest path with most popular tag {mostPopularTag != undefined ? mostPopularTag[0] : ""} is: <br />{longestPath.join("->")}.</div>
             </div>
             <div className="cont-scrollable bg-white shadow-md rounded">
                 <table className="text-md mb-4 analyses-table">
