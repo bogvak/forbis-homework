@@ -6,4 +6,4 @@ export enum LoadingState {
     Loaded,
     Error,
     Empty
-};
+}

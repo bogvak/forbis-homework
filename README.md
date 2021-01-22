@@ -38,3 +38,4 @@ Running of application tests
  - [ ] Increase test coverage - currently only main utils functions are covered by unit test;
  - [ ] Improving test using matrix of parameters;
  - [ ] Cover with meaninful comments and JSDocs;
+ - [ ] Implement more linter hints;

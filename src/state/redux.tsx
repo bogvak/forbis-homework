@@ -39,10 +39,10 @@ export const reducers = combineReducers({
 });
 
 // Store
-export function configureStore(initialState = {}) {
+export function configureStore(initialState = {}): any {
     const store = createStore(reducers, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ &&
         window.__REDUX_DEVTOOLS_EXTENSION__());
     return store;
-};
+}
 
 export const store = configureStore();

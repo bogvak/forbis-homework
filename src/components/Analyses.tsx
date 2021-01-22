@@ -18,8 +18,8 @@ const Analyses: React.FC = () => {
 
     async function fetchData(url: string) {
         try {
-            const data = await fetchURLAsString(url);
-            const doc = parseXML(data);
+            const fetchedData = await fetchURLAsString(url);
+            const doc = parseXML(fetchedData);
             const stats = getDocStatistics(doc);
             setAnalysesData({
                 data: stats,

@@ -18,8 +18,8 @@ export const parseXML = (xml: string): Document => {
 
 export const getDocStatistics = (doc: Document): Record<string, unknown> => {
     const root = doc.documentElement;
-    let path = [root.nodeName]
-    let resDict = {};
+    const path = [root.nodeName]
+    const resDict = {};
     resDict[root.nodeName] = { counter: 1, pathes: [] };
     resDict[root.nodeName].pathes.push(path);
     iterateChildrens(root.childNodes, resDict, path);
@@ -51,7 +51,7 @@ export const getLongestPath = (tagToSearch: string, pathesDict: Record<string, u
     let currNumberOfTags = 0;
     Object.keys(pathesDict).map((tagName: string) => {
         pathesDict[tagName]["pathes"].map((next_path: string[]) => {
-            let numbOfTagsInPath = countIncludes(tagToSearch, next_path);
+            const numbOfTagsInPath = countIncludes(tagToSearch, next_path);
             if (numbOfTagsInPath > currNumberOfTags) {
                 currNumberOfTags = numbOfTagsInPath;
                 longestPath = next_path;

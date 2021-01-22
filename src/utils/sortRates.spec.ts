@@ -1,6 +1,5 @@
 import { sortRates } from "./sortRates";
 import { CurrencyObj } from "src/interfaces/Bitcoin.interface";
-import { SortMode } from "src/interfaces/SortMode.interface";
 
 const currencyData: CurrencyObj[] = [
   {
